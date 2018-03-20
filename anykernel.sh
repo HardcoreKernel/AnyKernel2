@@ -4,12 +4,12 @@
 ## AnyKernel setup
 # begin properties
 properties() {
-kernel.string=
+kernel.string=HardcoreKernel for Aquaris M10FHD by @scafroglia93
 do.devicecheck=1
 do.modules=0
 do.cleanup=1
 do.cleanuponabort=0
-device.name1=
+device.name1=freezerfhd
 device.name2=
 device.name3=
 device.name4=
@@ -17,7 +17,7 @@ device.name5=
 } # end properties
 
 # shell variables
-block=;
+block=/dev/block/mmcblk0p8;
 is_slot_device=0;
 ramdisk_compression=auto;
 
