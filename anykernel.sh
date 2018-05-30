@@ -3,7 +3,7 @@
 
 ## AnyKernel setup
 # begin properties
-properties() {
+properties() { '
 kernel.string=HardcoreKernel for Aquaris M10FHD by @scafroglia93
 do.devicecheck=1
 do.modules=0
@@ -14,7 +14,7 @@ device.name2=
 device.name3=
 device.name4=
 device.name5=
-} # end properties
+'; } # end properties
 
 # shell variables
 block=/dev/block/mmcblk0p8;
