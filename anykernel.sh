@@ -3,7 +3,7 @@
 
 ## AnyKernel setup
 # begin properties
-properties() {
+properties() { '
 kernel.string=HardcoreKernel for Aquaris V by @scafroglia93
 do.devicecheck=1
 do.modules=1
@@ -14,7 +14,7 @@ device.name2=
 device.name3=
 device.name4=
 device.name5=
-} # end properties
+'; } # end properties
 
 # shell variables
 block=/dev/block/bootdevice/by-name/boot;
