@@ -33,9 +33,8 @@ debugging() {
 }
 unmount_all() {
   umount /system 2>/dev/null;
-  if [ -d "/system_root" ]; then
+  if [ -d /system_root -a ! -f /system/build.prop ]; then
     umount /system_root 2>/dev/null;
-    rmdir /system_root;
   fi;
   umount /system 2>/dev/null;
   umount /vendor 2>/dev/null;
@@ -87,7 +86,7 @@ unmount_all;
 mount -o ro -t auto /system;
 mount -o ro -t auto /vendor 2>/dev/null;
 mount /data 2>/dev/null;
-if [ -f "/system/system/build.prop" ]; then
+if [ -f /system/system/build.prop ]; then
   umount /system;
   umount /system 2>/dev/null;
   mkdir /system_root 2>/dev/null;
@@ -95,7 +94,9 @@ if [ -f "/system/system/build.prop" ]; then
   mount -o bind /system_root/system /system;
 fi;
 savedpath="$LD_LIBRARY_PATH";
+savedpre="$LD_PRELOAD";
 unset LD_LIBRARY_PATH;
+unset LD_PRELOAD;
 
 if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.devicecheck)" == 1 ]; then
   ui_print "Checking device...";
@@ -157,6 +158,7 @@ if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.cleanup)" == 1 ]; then
 fi;
 
 test "$savedpath" && export LD_LIBRARY_PATH="$savedpath";
+test "$savedpre" && export LD_PRELOAD="$savedpre";
 
 unmount_all;
 
