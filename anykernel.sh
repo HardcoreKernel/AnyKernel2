@@ -3,7 +3,7 @@
 
 ## AnyKernel setup
 # begin properties
-properties() {
+properties() { '
 kernel.string=HardcoreKernel for Nexus 6P by @scafroglia93
 do.devicecheck=1
 do.modules=0
@@ -14,7 +14,7 @@ device.name2=
 device.name3=
 device.name4=
 device.name5=
-} # end properties
+'; } # end properties
 
 # shell variables
 block=/dev/block/platform/soc.0/f9824900.sdhci/by-name/boot;
@@ -30,6 +30,7 @@ ramdisk_compression=auto;
 ## AnyKernel file attributes
 # set permissions/ownership for included ramdisk files
 chmod -R 750 $ramdisk/*;
+chmod -R 755 $ramdisk/sbin;
 chown -R root:root $ramdisk/*;
 
 
