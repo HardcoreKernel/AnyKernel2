@@ -209,7 +209,7 @@ repack_ramdisk() {
 
 # flash_boot (build, sign and write image only)
 flash_boot() {
-  local varlist kernel ramdisk cmdline part0 part1 signfail pk8 cert avbtype;
+  local varlist kernel ramdisk cmdline part0 part1 nocompflag signfail pk8 cert avbtype;
 
   cd $split_img;
   if [ -f "$bin/mkimage" ]; then
@@ -287,7 +287,10 @@ flash_boot() {
     for i in dtb recovery_dtbo; do
       test "$(eval echo \$$i)" -a -f $i && cp -f $(eval echo \$$i) $i;
     done;
-    $bin/magiskboot repack $bootimg $home/boot-new.img;
+    case $ramdisk_compression in
+      none|cpio) nocompflag="-n";;
+    esac;
+    $bin/magiskboot repack $nocompflag $bootimg $home/boot-new.img;
   fi;
   if [ $? != 0 ]; then
     abort "Repacking image failed. Aborting...";
@@ -311,7 +314,7 @@ flash_boot() {
       /system/bin/dalvikvm -Xbootclasspath:/system/framework/core-oj.jar:/system/framework/core-libart.jar:/system/framework/conscrypt.jar:/system/framework/bouncycastle.jar -Xnodex2oat -Xnoimage-dex2oat -cp $bin/BootSignature_Android.jar com.android.verity.BootSignature /$avbtype boot-new.img $pk8 $cert boot-new-signed.img;
     fi;
   fi;
-  if [ $? != 0 -o "$signfail"]; then
+  if [ $? != 0 -o "$signfail" ]; then
     abort "Signing image failed. Aborting...";
   fi;
   mv -f boot-new-signed.img boot-new.img 2>/dev/null;
